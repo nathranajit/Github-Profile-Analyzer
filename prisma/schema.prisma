@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model GithubProfile {
+  id        Int     @id @default(autoincrement())
+  githubId  Int     @unique
+  username  String  @unique
+  name      String?
+  bio       String? @db.Text
+  avatarUrl String?
+  githubUrl String
+  company   String?
+  blog      String?
+  location  String?
+  email     String?
+
+  publicRepos Int @default(0)
+  publicGists Int @default(0)
+  followers   Int @default(0)
+  following   Int @default(0)
+
+  githubCreatedAt DateTime
+  githubUpdatedAt DateTime
+
+  lastAnalyzedAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([username])
+  @@index([githubId])
+}
